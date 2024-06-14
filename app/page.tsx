@@ -1,13 +1,14 @@
 "use client";
 
-import Head from 'next/head';
 import {useEffect, useState} from "react";
 import  {v7 as uuidv7 } from "uuid";
+import {Vote} from "./api/VoteService";
+import {connectSSE} from "./SSE";
 export default function Home() {
     const fibonacci = [0, 1, 2, 3, 5, 8, 13, 21, 34];
 
-    const title = "US-2 super awesome ad-free planning poker"
-    let [votes, setVotes] = useState([]);
+
+    let [votes, setVotes] = useState<Vote[]>([]);
     let [name, setName] = useState<string>('');
 
     const fetchVotes = async () => {
@@ -46,7 +47,7 @@ export default function Home() {
 
     useEffect(() => {
         const name = localStorage.getItem("name")
-        setName(name)
+        setName(name ?? '')
     }, [])
 
     const saveName = (name) => {
@@ -54,16 +55,17 @@ export default function Home() {
         setName(name);
     }
 
+    useEffect(() => {
+        connectSSE('http://localhost:3000/api/sse', (votes) => {
+            setVotes(votes)
+        })
+    }, [])
+
     return (
         <>
-            <Head>
-                <title>{title}</title>
-                <link rel="icon" href="/favicon.ico"/>
-            </Head>
-
             <main>
                 <header>
-                    {title}
+                    US-2 super awesome ad-free planning poker
                 </header>
 
                 <div className="auth-container">

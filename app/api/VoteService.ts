@@ -1,3 +1,4 @@
+import EventEmitter from "events";
 
 export type Vote = {
     id: string,
@@ -6,7 +7,17 @@ export type Vote = {
     vote: number
 }
 export class VoteService {
+    private readonly eventEmitter: EventEmitter;
     private votes: Vote[] = [];
+
+    constructor() {
+        this.eventEmitter = new EventEmitter();
+    }
+
+    getEvents() {
+        return this.eventEmitter;
+    }
+
     getVotes() {
         return this.votes;
     }
@@ -21,6 +32,8 @@ export class VoteService {
             .filter((v) => v.user_id !== user_id);
 
         this.votes.push({...newVote, user_id});
+
+        this.eventEmitter.emit('vote', this.votes)
     }
 }
 
