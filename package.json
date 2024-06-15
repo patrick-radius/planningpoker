@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "aws-amplify": "^6.3.6",
     "eventsource": "^2.0.2",
     "next": "latest",
     "react": "18.2.0",
@@ -16,8 +17,15 @@
     "node": ">=18"
   },
   "devDependencies": {
+    "@aws-amplify/backend": "^1.0.3",
+    "@aws-amplify/backend-cli": "^1.0.4",
     "@types/node": "20.14.2",
     "@types/react": "18.3.3",
-    "typescript": "5.4.5"
+    "aws-cdk": "^2.146.0",
+    "aws-cdk-lib": "^2.146.0",
+    "constructs": "^10.3.0",
+    "esbuild": "^0.21.5",
+    "tsx": "^4.15.5",
+    "typescript": "^5.4.5"
   }
 }
