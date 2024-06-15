@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const allowedOrigins = ['http://localhost:3000', 'https://planningpoker-ten.vercel.app']
+const allowedOrigins = [
+    'http://localhost:3000',
+    'https://planningpoker-ten.vercel.app',
+    'https://main.d1sxd02f5mnsx8.amplifyapp.com',
+    'https://pokerplanning.nl'
+]
 
 const corsOptions = {
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
