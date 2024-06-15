@@ -56,7 +56,9 @@ export default function Home() {
     }
 
     useEffect(() => {
-        connectSSE('http://localhost:3000/api/sse', (votes) => {
+        const host = window.location.origin;
+
+        connectSSE(`${host}/api/sse`, (votes) => {
             setVotes(votes)
         })
     }, [])
