@@ -9,11 +9,14 @@ export default function Home() {
 
 
     let [votes, setVotes] = useState<Vote[]>([]);
+    let [votesVisible, setVotesVisible] = useState<boolean>(false);
+
     let [name, setName] = useState<string>('');
 
     const fetchVotes = async () => {
         fetch('/api/votes').then(resp => resp.json()).then(resp => {
             setVotes(resp.votes.sort((a, b) => a.name.localeCompare(b.name)))
+            setVotesVisible(resp.visible);
         });
     }
 
@@ -40,6 +43,24 @@ export default function Home() {
             },
         }).then(resp => resp.json()).then(fetchVotes);
     }
+    const hideVotes = () => {
+        fetch('/api/visiblevotes', {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then(resp => resp.json()).then(fetchVotes);
+    }
+
+    const showVotes = () => {
+        fetch('/api/visiblevotes', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+        }).then(resp => resp.json()).then(fetchVotes);
+    }
+
 
     useEffect(() => {
         fetchVotes();
@@ -56,11 +77,14 @@ export default function Home() {
     }
 
     useEffect(() => {
-        const host = window.location.origin;
-
-        connectSSE(`${host}/api/sse`, (votes) => {
-            setVotes(votes)
-        })
+        setInterval(() => {
+            fetchVotes();
+        }, 1000);
+        // const host = window.location.origin;
+        //
+        // connectSSE(`${host}/api/sse`, (votes) => {
+        //     setVotes(votes)
+        // })
     }, [])
 
     return (
@@ -86,7 +110,14 @@ export default function Home() {
                         {votes.map((item) => (
                             <tr key={item.name}>
                                 <td>{item.name}</td>
-                                <td>{item.vote}</td>
+                                <td>
+                                    {votesVisible &&<span>
+                                        {item.vote}
+                                    </span>}
+                                    {!votesVisible &&<span>
+                                        #
+                                    </span>}
+                                </td>
                             </tr>
                         ))}
                         </tbody>
@@ -96,6 +127,8 @@ export default function Home() {
             <footer>
                 <div>
                     <button onClick={() => clearVotes()}>clear votes</button>
+                    {votesVisible && <button onClick={() => hideVotes()}>hide votes</button>}
+                    {!votesVisible && <button onClick={() => showVotes()}>show votes</button>}
                 </div>
             </footer>
         </>

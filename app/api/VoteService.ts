@@ -9,6 +9,7 @@ export type Vote = {
 export class VoteService {
     private readonly eventEmitter: EventEmitter;
     private votes: Vote[] = [];
+    private votesVisible = false;
 
     constructor() {
         this.eventEmitter = new EventEmitter();
@@ -21,6 +22,17 @@ export class VoteService {
     getVotes() {
         return this.votes;
     }
+    showVotes() {
+        this.votesVisible = true;
+    }
+    hideVotes() {
+        this.votesVisible = false;
+    }
+
+    getShowVotes() {
+        return this.votesVisible;
+    }
+
     clearVotes() {
         this.votes = [];
     }
