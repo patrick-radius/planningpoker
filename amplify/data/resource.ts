@@ -7,7 +7,7 @@ const schema = a.schema({
     vote: a.string().required(),
     roomId: a.id(),
     room: a.belongsTo('Room', 'roomId')
-  }),
+  }).authorization((allow) => [allow.guest()]),
   Room: a
     .model({
       id: a.id(),

@@ -1,9 +1,9 @@
 "use client";
 
 import {useEffect, useState} from "react";
-import  {v7 as uuidv7 } from "uuid";
+import  {v4 as uuid } from "uuid";
 import {Vote} from "./api/VoteService";
-import {connectSSE} from "./SSE";
+
 export default function Home() {
     const fibonacci = [0, 1, 2, 3, 5, 8, 13, 21, 34];
 
@@ -31,7 +31,7 @@ export default function Home() {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({id: uuidv7(), name, vote: item},)
+            body: JSON.stringify({id: uuid(), name, vote: item},)
         }).then(resp => resp.json()).then(fetchVotes);
     }
 

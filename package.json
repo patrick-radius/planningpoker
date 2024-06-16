@@ -1,4 +1,5 @@
 {
+  "name": "planningpoker",
   "private": true,
   "scripts": {
     "build": "next build",
